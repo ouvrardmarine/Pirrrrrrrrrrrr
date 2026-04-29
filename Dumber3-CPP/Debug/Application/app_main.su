@@ -1,2 +1,0 @@
-../Application/application.h:54:25:static Application& Application::Instance()	8	static
-../Application/app_main.cpp:14:17:void APPLICATION_Start()	8	static
