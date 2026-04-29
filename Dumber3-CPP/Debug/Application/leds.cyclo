@@ -1,0 +1,12 @@
+../Application/leds.h:190:17:void Leds::LEDS_All_Off()	1
+../Application/leds.cpp:185:1:Leds::Leds()	1
+../Application/leds.cpp:197:6:static void Leds::LEDS_HandlerThread_trampoline(void*)	1
+../Application/leds.cpp:201:6:static void Leds::LEDS_ActionThread_trampoline(void*)	1
+../Application/leds.cpp:205:6:static void Leds::LEDS_Tests_trampoline(void*)	1
+../Application/leds.cpp:219:6:void Leds::LEDS_Init()	1
+../Application/leds.cpp:249:6:void Leds::LEDS_Set(LEDS_State)	2
+../Application/leds.cpp:265:6:void Leds::LEDS_HardFault()	1
+../Application/leds.cpp:279:6:void Leds::LEDS_ShowPattern(uint8_t)	3
+../Application/leds.cpp:300:6:void Leds::LEDS_Tests()	2
+../Application/leds.cpp:325:6:void Leds::LEDS_HandlerThread()	4
+../Application/leds.cpp:366:6:void Leds::LEDS_ActionThread()	57

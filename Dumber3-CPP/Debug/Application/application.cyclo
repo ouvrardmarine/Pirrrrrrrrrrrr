@@ -1,0 +1,9 @@
+../Application/application.cpp:53:1:Application::Application()	1
+../Application/application.cpp:65:6:static void Application::APPLICATION_Thread_trampoline(void*)	1
+../Application/application.cpp:75:6:static void Application::vTimerTimeoutCallback_trampoline(TimerHandle_t)	1
+../Application/application.cpp:89:6:void Application::Init()	1
+../Application/application.cpp:137:6:void Application::APPLICATION_Thread()	1
+../Application/application.cpp:254:6:void Application::APPLICATION_StateMachine()	1
+../Application/application.cpp:391:6:void Application::APPLICATION_TransitionToNewState(APPLICATION_State)	1
+../Application/application.cpp:467:6:void Application::APPLICATION_PowerOff()	1
+../Application/application.cpp:486:6:void Application::vTimerTimeoutCallback(TimerHandle_t)	1
