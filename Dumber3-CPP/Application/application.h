@@ -19,6 +19,8 @@ extern "C" {
 #include <stdlib.h>
 
 #include "leds.h"
+#include "xbee.h"
+#include "Motors.h"
 
 #include "FreeRTOS.h"
 #include "timers.h"
@@ -60,6 +62,8 @@ public:
      * @brief Initialization of drivers, modules and application (replaces APPLICATION_Init)
      */
     void Init(void);
+
+    Leds& GetLeds(void);
 
 private:
     // -------------------------------------------------------------------------
@@ -127,6 +131,7 @@ private:
 
     // Attributes
     Leds leds;
+    Xbee xbee;
 
     // -------------------------------------------------------------------------
     // Private methods

@@ -53,12 +53,12 @@ extern DMA_HandleTypeDef     hdma_lpuart1_rx;
 
 Xbee::Xbee()
     : xHandleXbeeTXHandler(NULL),
+	  xHandleSemaphoreTX(NULL),
+	  txIndex(0),
+	  txRemainingData(0),
+	  txDataToSend(0),
       xHandleXbeeRX(NULL),
-      xHandleSemaphoreTX(NULL),
       xHandleSemaphoreRX(NULL),
-      txIndex(0),
-      txRemainingData(0),
-      txDataToSend(0),
       rxPhase(0),
       rxCmdLength(0),
       rxDataToReceive(0),

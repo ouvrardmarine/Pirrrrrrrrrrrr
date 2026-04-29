@@ -1,10 +1,10 @@
-#include "panic.hpp"
+#include "panic_version4.hpp"
 
 extern "C" {
 #include "application.h"
 #include "timers.h"
 #include "leds.h"
-#include "stm32fxxx_hal.h"   // adapt to your MCU
+#include "stm32l0xx_hal.h"
 }
 
 // Forward declarations (C linkage if needed)
@@ -63,21 +63,24 @@ extern TaskHandle_t xHandleXbeeRX;
 
 [[noreturn]] void Panic_Raise(PanicType panicId)
 {
+
+	Application& app = Application::Instance();
+
     switch (panicId) {
         case PanicType::AdcError:
-            LEDS_Set(leds_error_1);
+        	app.GetLeds().LEDS_Set(Leds::leds_error_1);
             break;
 
         case PanicType::ChargerError:
-            LEDS_Set(leds_error_2);
+        	app.GetLeds().LEDS_Set(Leds::leds_error_2);
             break;
 
         case PanicType::MallocError:
-            LEDS_Set(leds_error_3);
+        	app.GetLeds().LEDS_Set(Leds::leds_error_3);
             break;
 
         default:
-            LEDS_Set(leds_error_5);
+        	app.GetLeds().LEDS_Set(Leds::leds_error_5);
             break;
     }
 

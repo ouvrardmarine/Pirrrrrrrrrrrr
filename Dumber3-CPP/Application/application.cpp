@@ -33,7 +33,7 @@
 #include "xbee.h"
 #include "messages.h"
 #include "commands.h"
-#include "moteur.h"
+#include "Motors.h"
 #include "battery_version4.hpp"
 #include "panic_version4.hpp"
 #include "rtos_support.h"
@@ -92,6 +92,8 @@ void Application::Init(void) {
 //
     /* Init de l'afficheur */
     leds.LEDS_Init();
+    Motors::init();
+    xbee.XBEE_Init();
 
 //    /* Init de la partie RF / reception des messages */
 //    XBEE_Init();
@@ -120,6 +122,10 @@ void Application::Init(void) {
             vTimerTimeoutCallback_trampoline,
             &xBufferTimerTimeout);
     xTimerStart(xHandleTimerTimeout, 0);
+}
+
+Leds& Application::GetLeds(void){
+	return leds;
 }
 
 // =========================================================================

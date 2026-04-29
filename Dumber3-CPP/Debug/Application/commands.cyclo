@@ -1,0 +1,8 @@
+../Application/commands.cpp:11:7:static char* Commands::addChecksum(const char*)	3
+../Application/commands.cpp:29:6:static char Commands::verifyChecksum(char*)	5
+../Application/commands.cpp:48:24:static Commands::CMD_Generic* Commands::decode(char*, uint8_t)	26
+../Application/commands.cpp:154:6:static void Commands::sendAnswer(uint8_t)	3
+../Application/commands.cpp:166:6:static void Commands::sendString(char*)	2
+../Application/commands.cpp:178:6:static void Commands::sendBatteryLevel(uint16_t)	7
+../Application/commands.cpp:195:6:static void Commands::sendVersion()	1
+../Application/commands.cpp:205:6:static void Commands::sendBusyState(uint8_t)	2

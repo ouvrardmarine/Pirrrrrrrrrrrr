@@ -1,0 +1,3 @@
+../Application/application.h:56:25:static Application& Application::Instance()	8	static
+../Application/panic_version4.cpp:26:26:void Panic_StopTasksAndWait()	16	static,ignoring_inline_asm
+../Application/panic_version4.cpp:64:19:void Panic_Raise(PanicType)	24	static

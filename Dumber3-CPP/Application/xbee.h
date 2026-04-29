@@ -21,8 +21,9 @@
 extern "C" {
 #endif
 
-#include "xbee.h"
+#include "FreeRTOS.h"
 #include "semphr.h"
+#include "task.h"
 #include <stdlib.h>
 #include <string.h>
 #include "stm32l0xx_ll_usart.h"
@@ -48,6 +49,11 @@ extern "C" {
  * Manages UART-based RF communication with the supervisor,
  * including TX/RX tasks, interrupt handlers, and framing logic.
  */
+
+#define XBEE_OK          0
+#define XBEE_TX_ERROR   -1
+#define XBEE_TX_TIMEOUT -2
+
 class Xbee {
 public:
     // -------------------------------------------------------------------------
@@ -117,13 +123,13 @@ private:
     StackType_t   xStackXbeeTXHandler[STACK_SIZE];
     TaskHandle_t  xHandleXbeeTXHandler;
 
+    SemaphoreHandle_t  xHandleSemaphoreTX;
+    StaticSemaphore_t  xSemaphoreTX;
+
     uint8_t  txBuffer[XBEE_TX_BUFFER_MAX_LENGTH];
     uint16_t txIndex;
     uint16_t txRemainingData;
     uint16_t txDataToSend;
-
-    SemaphoreHandle_t  xHandleSemaphoreTX;
-    StaticSemaphore_t  xSemaphoreTX;
 
     // -------------------------------------------------------------------------
     // RX state

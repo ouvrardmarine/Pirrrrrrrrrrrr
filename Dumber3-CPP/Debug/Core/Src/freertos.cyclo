@@ -1,0 +1,2 @@
+../Core/Src/freertos.c:56:13:PreSleepProcessing	1
+../Core/Src/freertos.c:61:13:PostSleepProcessing	1

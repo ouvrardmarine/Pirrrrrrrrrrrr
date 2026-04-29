@@ -34,6 +34,10 @@
 #include "application.h"
 #include "queue.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** @addtogroup Application_Software
   * @{
   */
@@ -110,5 +114,9 @@ void MESSAGE_SendMailboxFromISR(QueueHandle_t mbx_dest, uint16_t id, QueueHandle
 /**
   * @}
   */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* INC_MESSAGES_H_ */

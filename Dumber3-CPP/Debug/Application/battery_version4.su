@@ -1,0 +1,11 @@
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_gpio.h:733:26:uint32_t LL_GPIO_ReadInputPort(GPIO_TypeDef*)	16	static
+../Application/battery_version4.cpp:31:6:static void Battery::Init()	32	static
+../Application/battery_version4.cpp:56:24:static Battery::ChargerStatus Battery::GetChargerStatus()	16	static
+../Application/battery_version4.cpp:67:5:static int Battery::GetVoltage(uint16_t*)	24	static
+../Application/battery_version4.cpp:87:10:static uint16_t Battery::BatteryLevel(uint8_t, ChargerStatus)	16	static
+../Application/battery_version4.cpp:116:6:static void Battery::Thread(void*)	40	static
+../Application/battery_version4.cpp:143:6:static void Battery::AdcConvCpltCallback(ADC_HandleTypeDef*)	24	static
+../Application/battery_version4.cpp:156:6:static void Battery::TimerCallback(TimerHandle_t)	16	static
+../Application/battery_version4.cpp:161:6:static void Battery::GpioExtiCallback(uint16_t)	32	static
+../Application/battery_version4.cpp:186:6:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	16	static
+../Application/battery_version4.cpp:190:6:void HAL_GPIO_EXTI_Callback(uint16_t)	16	static

@@ -1,0 +1,5 @@
+../Application/messages.cpp:60:7:void MESSAGE_Init()	8	static
+../Application/messages.cpp:82:17:MESSAGE_Typedef MESSAGE_ReadMailbox(QueueHandle_t)	24	static
+../Application/messages.cpp:107:17:MESSAGE_Typedef MESSAGE_ReadMailboxNoDelay(QueueHandle_t)	16	static
+../Application/messages.cpp:128:6:void MESSAGE_SendMailbox(QueueHandle_t, uint16_t, QueueHandle_t, void*)	40	static
+../Application/messages.cpp:153:6:void MESSAGE_SendMailboxFromISR(QueueHandle_t, uint16_t, QueueHandle_t, void*, BaseType_t*)	40	static
