@@ -89,8 +89,8 @@ all: main-build
 main-build: Dumber3-CPP.elf secondary-outputs
 
 # Tool invocations
-Dumber3-CPP.elf Dumber3-CPP.map: $(OBJS) $(USER_OBJS) C:\Users\leole\STM32CubeIDE\workspace_2.1.1\Dumber3-CPP\STM32L071CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "Dumber3-CPP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\Users\leole\STM32CubeIDE\workspace_2.1.1\Dumber3-CPP\STM32L071CBTX_FLASH.ld" -Wl,-Map="Dumber3-CPP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Dumber3-CPP.elf Dumber3-CPP.map: $(OBJS) $(USER_OBJS) C:\Users\33783\Desktop\Pirrrrrrrrrrrr\Dumber3-CPP\STM32L071CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "Dumber3-CPP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\Users\33783\Desktop\Pirrrrrrrrrrrr\Dumber3-CPP\STM32L071CBTX_FLASH.ld" -Wl,-Map="Dumber3-CPP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

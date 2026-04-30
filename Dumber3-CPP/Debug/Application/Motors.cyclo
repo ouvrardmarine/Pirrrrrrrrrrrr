@@ -2,11 +2,20 @@
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_gpio.h:872:22:void LL_GPIO_ResetOutputPin(GPIO_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:901:22:void LL_TIM_EnableCounter(TIM_TypeDef*)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:912:22:void LL_TIM_DisableCounter(TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1281:22:void LL_TIM_CC_EnableChannel(TIM_TypeDef*, uint32_t)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1300:22:void LL_TIM_CC_DisableChannel(TIM_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1678:22:void LL_TIM_OC_SetCompareCH1(TIM_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1692:22:void LL_TIM_OC_SetCompareCH2(TIM_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1706:22:void LL_TIM_OC_SetCompareCH3(TIM_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:1720:22:void LL_TIM_OC_SetCompareCH4(TIM_TypeDef*, uint32_t)	1
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2109:26:uint32_t LL_TIM_IC_GetCaptureCH1(const TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2122:26:uint32_t LL_TIM_IC_GetCaptureCH2(const TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2568:22:void LL_TIM_ClearFlag_UPDATE(TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2579:26:uint32_t LL_TIM_IsActiveFlag_UPDATE(const TIM_TypeDef*)	2
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2799:22:void LL_TIM_EnableIT_UPDATE(TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2810:22:void LL_TIM_DisableIT_UPDATE(TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2832:22:void LL_TIM_EnableIT_CC1(TIM_TypeDef*)	1
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:2843:22:void LL_TIM_DisableIT_CC1(TIM_TypeDef*)	1
 ../Application/Motors.cpp:39:6:static void Motors::init()	1
 ../Application/Motors.cpp:68:6:static void Motors::move(int32_t)	2
 ../Application/Motors.cpp:92:6:static void Motors::turn(int32_t)	2
@@ -14,6 +23,9 @@
 ../Application/Motors.cpp:131:6:static void Motors::handlerTask(void*)	4
 ../Application/Motors.cpp:183:6:static void Motors::set(int16_t, int16_t)	3
 ../Application/Motors.cpp:218:6:static void Motors::powerOn()	1
-../Application/Motors.cpp:224:6:static void Motors::powerOff()	1
-../Application/Motors.cpp:234:17:void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef*)	1
-../Application/Motors.cpp:239:6:static void Motors::timerCaptureCallback(TIM_HandleTypeDef*)	2
+../Application/Motors.cpp:234:6:static void Motors::powerOff()	1
+../Application/Motors.cpp:254:17:void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef*)	1
+../Application/Motors.cpp:259:6:static void Motors::timerCaptureCallback(TIM_HandleTypeDef*)	14
+../Application/Motors.cpp:324:9:static int16_t Motors::encoderCorrection(const MotorState&)	7
+../Application/Motors.cpp:360:6:static void Motors::resetControlTask()	1
+../Application/Motors.cpp:380:6:static void Motors::controlTask(void*)	19

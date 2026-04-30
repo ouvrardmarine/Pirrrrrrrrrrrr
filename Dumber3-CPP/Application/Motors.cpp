@@ -218,12 +218,32 @@ void Motors::set(int16_t leftMotor, int16_t rightMotor)
 void Motors::powerOn()
 {
     LL_TIM_EnableCounter(TIM3);
+    LL_TIM_EnableCounter(TIM2);
+    LL_TIM_EnableCounter(TIM21);
+    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2|LL_TIM_CHANNEL_CH3|LL_TIM_CHANNEL_CH4);
+    LL_TIM_CC_EnableChannel(TIM2, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2);
+    LL_TIM_CC_EnableChannel(TIM21, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2);
+    LL_TIM_EnableIT_CC1(TIM2);
+    LL_TIM_EnableIT_CC1(TIM21);
+    LL_TIM_EnableIT_UPDATE(TIM2);
+    LL_TIM_EnableIT_UPDATE(TIM21);
+    LL_GPIO_ResetOutputPin(GPIOB, SHUTDOWN_ENCODERS_Pin);
     LL_GPIO_SetOutputPin(GPIOB, SHUTDOWN_5V_Pin);
 }
 
 void Motors::powerOff()
 {
     LL_TIM_DisableCounter(TIM3);
+    LL_TIM_DisableCounter(TIM2);
+    LL_TIM_DisableCounter(TIM21);
+    LL_TIM_CC_DisableChannel(TIM3, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2|LL_TIM_CHANNEL_CH3|LL_TIM_CHANNEL_CH4);
+    LL_TIM_CC_DisableChannel(TIM2, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2);
+    LL_TIM_CC_DisableChannel(TIM21, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2);
+    LL_TIM_DisableIT_CC1(TIM2);
+    LL_TIM_DisableIT_CC1(TIM21);
+    LL_TIM_DisableIT_UPDATE(TIM2);
+    LL_TIM_DisableIT_UPDATE(TIM21);
+    LL_GPIO_SetOutputPin(GPIOB, SHUTDOWN_ENCODERS_Pin);
     LL_GPIO_ResetOutputPin(GPIOB, SHUTDOWN_5V_Pin);
 }
 
@@ -238,16 +258,172 @@ extern "C" void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 
 void Motors::timerCaptureCallback(TIM_HandleTypeDef *htim)
 {
-    if (htim->Instance == TIM21)
-    {
-        leftMotorState.encoder =
-            static_cast<uint16_t>(
-                LL_TIM_IC_GetCaptureCH1(TIM21));
+    if (htim->Instance == TIM21) {
+        if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
+            if (leftMotorState.slowMotor != 0) {
+                leftMotorState.encoder = USHRT_MAX;
+                leftMotorState.encoderEdge = USHRT_MAX;
+            } else {
+                leftMotorState.encoder  = (uint16_t)LL_TIM_IC_GetCaptureCH1(TIM21);
+                leftMotorState.encoderEdge = (uint16_t)LL_TIM_IC_GetCaptureCH2(TIM21);
+            }
+            if (LL_TIM_IsActiveFlag_UPDATE(TIM21)) LL_TIM_ClearFlag_UPDATE(TIM21);
+            leftMotorState.slowMotor = 0;
+
+            if (diffState.distance) {
+                if (diffState.distance > 0) diffState.distance--;
+                else diffState.distance++;
+                if (diffState.distance == 0) { leftMotorState.setpoint = 0; rightMotorState.setpoint = 0; }
+            }
+            if (diffState.turns) {
+                if (diffState.turns > 0) diffState.turns--;
+                else diffState.turns++;
+                if (diffState.turns == 0) { leftMotorState.setpoint = 0; rightMotorState.setpoint = 0; }
+            }
+        }
+    } else {
+        if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
+            if (rightMotorState.slowMotor != 0) {
+                rightMotorState.encoder = USHRT_MAX;
+                rightMotorState.encoderEdge = USHRT_MAX;
+            } else {
+                rightMotorState.encoder  = (uint16_t)LL_TIM_IC_GetCaptureCH1(TIM2);
+                rightMotorState.encoderEdge = (uint16_t)LL_TIM_IC_GetCaptureCH2(TIM2);
+            }
+            if (LL_TIM_IsActiveFlag_UPDATE(TIM2)) LL_TIM_ClearFlag_UPDATE(TIM2);
+            rightMotorState.slowMotor = 0;
+        }
     }
-    else
+}
+
+/* -------------------------------------------------------------------------- */
+/* CALLBACK HAL */
+/* -------------------------------------------------------------------------- */
+
+// ... (ton code timerCaptureCallback existant) ...
+
+/* -------------------------------------------------------------------------- */
+/* CONSTANTES REGULATION */                          // ← AJOUTER ICI
+/* -------------------------------------------------------------------------- */
+
+#define MOTOR_Kp 300
+
+struct CorrectionPoint { uint16_t encoder; uint16_t correction; };
+static const CorrectionPoint correctionPoints[16] = {
+    { 65534, 1 }, { 42000, 100 }, { 22000, 2500 }, { 18000, 5000 },
+    { 16500, 7500 }, { 15500, 10000 }, { 14500, 12500 }, { 13000, 15000 },
+    { 12500, 17500 }, { 12200, 20000 }, { 11500, 22500 }, { 11100, 25000 },
+    { 11000, 27500 }, { 10900, 29000 }, { 10850, 30500 }, { 10800, 32767 }
+};
+
+/* -------------------------------------------------------------------------- */
+/* ENCODER CORRECTION */
+/* -------------------------------------------------------------------------- */
+
+
+int16_t Motors::encoderCorrection(const MotorState& state)
+{
+    uint16_t encoder = state.encoder;
+    int16_t correction = 0;
+    uint8_t index = 0;
+
+    if (encoder == USHRT_MAX)
+        return 0;
+
+    while (index < 16) {
+        if ((correctionPoints[index].encoder >= encoder) &&
+            (correctionPoints[index + 1].encoder < encoder))
+            break;
+        else
+            index++;
+    }
+
+    if (index >= 16)
+        correction = SHRT_MAX;
+    else {
+        uint32_t A = encoder - correctionPoints[index + 1].encoder;
+        uint32_t B = correctionPoints[index + 1].correction - correctionPoints[index].correction;
+        uint32_t C = correctionPoints[index].encoder - correctionPoints[index + 1].encoder;
+        correction = (int16_t)(correctionPoints[index + 1].correction - (uint16_t)((A * B) / C));
+    }
+
+    if (state.setpoint < 0)
+        correction = -correction;
+
+    return correction;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESET CONTROL TASK */
+/* -------------------------------------------------------------------------- */
+
+void Motors::resetControlTask()
+{
+    vTaskDelete(xHandleMotorsControl);
+
+    xHandleMotorsControl = xTaskCreateStatic(
+        controlTask,
+        "MOTORS Control",
+        STACK_SIZE,
+        nullptr,
+        PriorityMotorsAsservissement,
+        xStackMotorsControl,
+        &xTaskMotorsControl);
+
+    vTaskSuspend(xHandleMotorsControl);
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTROL TASK */
+/* -------------------------------------------------------------------------- */
+
+void Motors::controlTask(void *params)
+{
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    int16_t leftError, rightError;
+    int32_t locCmdG, locCmdD;
+
+    for (;;)
     {
-        rightMotorState.encoder =
-            static_cast<uint16_t>(
-                LL_TIM_IC_GetCaptureCH1(TIM2));
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(MOTORS_REGULATION_DELAY));
+
+        int16_t leftEncoder  = encoderCorrection(leftMotorState);
+        int16_t rightEncoder = encoderCorrection(rightMotorState);
+
+        leftError  = leftMotorState.setpoint  - leftEncoder;
+        rightError = rightMotorState.setpoint - rightEncoder;
+
+        if ((leftMotorState.setpoint == 0) && (rightMotorState.setpoint == 0)
+            && (leftError == 0) && (rightError == 0))
+        {
+            powerOff();
+            MESSAGE_SendMailbox(APPLICATION_Mailbox, MSG_ID_MOTORS_END_OF_MOUVMENT,
+                MOTORS_Mailbox, nullptr);
+            vTaskSuspend(xHandleMotorsControl);
+        }
+
+        // Moteur gauche
+        if (leftMotorState.setpoint == 0)
+            leftMotorState.output = 0;
+        else if (leftError != 0) {
+            locCmdG = ((int32_t)MOTOR_Kp * (int32_t)leftError) / 100;
+            if (leftMotorState.setpoint >= 0)
+                leftMotorState.output = (int16_t)((locCmdG < 0) ? 0 : (locCmdG > SHRT_MAX ? SHRT_MAX : locCmdG));
+            else
+                leftMotorState.output = (int16_t)((locCmdG > 0) ? 0 : (locCmdG < SHRT_MIN ? SHRT_MIN : locCmdG));
+        }
+
+        // Moteur droit
+        if (rightMotorState.setpoint == 0)
+            rightMotorState.output = 0;
+        else if (rightError != 0) {
+            locCmdD = ((int32_t)MOTOR_Kp * (int32_t)rightError) / 100;
+            if (rightMotorState.setpoint >= 0)
+                rightMotorState.output = (int16_t)((locCmdD < 0) ? 0 : (locCmdD > SHRT_MAX ? SHRT_MAX : locCmdD));
+            else
+                rightMotorState.output = (int16_t)((locCmdD > 0) ? 0 : (locCmdD < SHRT_MIN ? SHRT_MIN : locCmdD));
+        }
+
+        set(leftMotorState.output, rightMotorState.output);
     }
 }

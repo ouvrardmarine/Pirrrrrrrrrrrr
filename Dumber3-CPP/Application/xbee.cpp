@@ -27,7 +27,7 @@
  *
  ******************************************************************************
  */
-
+#include "main.h"
 #include "xbee.h"
 
 /** @addtogroup Application_Software

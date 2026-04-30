@@ -41,15 +41,9 @@ Application/leds.o: ../Application/leds.cpp ../Application/leds.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Application/messages.h ../Application/application.h \
- ../Application/xbee.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Application/messages.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
- ../Application/panic_version4.hpp ../Application/Motors.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 ../Application/leds.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
@@ -95,13 +89,5 @@ Application/leds.o: ../Application/leds.cpp ../Application/leds.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../Application/messages.h:
-../Application/application.h:
-../Application/xbee.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h:
-../Application/panic_version4.hpp:
-../Application/Motors.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:

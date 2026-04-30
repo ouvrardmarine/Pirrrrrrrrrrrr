@@ -1,17 +1,8 @@
-Application/xbee.o: ../Application/xbee.cpp ../Application/xbee.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
- ../Core/Inc/FreeRTOSConfig.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/portmacro.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
+Application/xbee.o: ../Application/xbee.cpp ../Core/Inc/main.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
+ ../Core/Inc/stm32l0xx_hal_conf.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h \
  ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/stm32l0xx.h \
  ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/stm32l071xx.h \
  ../Drivers/CMSIS/Include/core_cm0plus.h \
@@ -20,10 +11,6 @@ Application/xbee.o: ../Application/xbee.cpp ../Application/xbee.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/system_stm32l0xx.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
- ../Core/Inc/stm32l0xx_hal_conf.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_exti.h \
@@ -42,27 +29,30 @@ Application/xbee.o: ../Application/xbee.cpp ../Application/xbee.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
- ../Application/panic_version4.hpp ../Application/messages.h \
- ../Application/application.h ../Core/Inc/main.h ../Application/config.h \
+ ../Application/xbee.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
+ ../Core/Inc/FreeRTOSConfig.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/portmacro.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
+ ../Application/config.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Application/leds.h ../Application/Motors.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
+ ../Application/panic_version4.hpp ../Application/messages.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
-../Application/xbee.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
-../Core/Inc/FreeRTOSConfig.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
-../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/portmacro.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h:
+../Core/Inc/main.h:
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
+../Core/Inc/stm32l0xx_hal_conf.h:
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h:
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h:
 ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/stm32l0xx.h:
 ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/stm32l071xx.h:
 ../Drivers/CMSIS/Include/core_cm0plus.h:
@@ -71,10 +61,6 @@ Application/xbee.o: ../Application/xbee.cpp ../Application/xbee.h \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32L0xx/Include/system_stm32l0xx.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
-../Core/Inc/stm32l0xx_hal_conf.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc_ex.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_exti.h:
@@ -93,14 +79,23 @@ Application/xbee.o: ../Application/xbee.cpp ../Application/xbee.h \
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim_ex.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h:
-../Application/panic_version4.hpp:
-../Application/messages.h:
-../Application/application.h:
-../Core/Inc/main.h:
+../Application/xbee.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
+../Core/Inc/FreeRTOSConfig.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
+../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/portmacro.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
+../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
 ../Application/config.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
-../Application/leds.h:
-../Application/Motors.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h:
+../Application/panic_version4.hpp:
+../Application/messages.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:

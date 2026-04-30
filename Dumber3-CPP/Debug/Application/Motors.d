@@ -41,15 +41,11 @@ Application/Motors.o: ../Application/Motors.cpp ../Application/Motors.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Application/messages.h ../Application/application.h \
- ../Core/Inc/main.h ../Application/leds.h ../Application/xbee.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
+ ../Application/messages.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
- ../Application/panic_version4.hpp \
+ ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_gpio.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h
 ../Application/Motors.h:
@@ -96,16 +92,9 @@ Application/Motors.o: ../Application/Motors.cpp ../Application/Motors.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../Application/messages.h:
-../Application/application.h:
-../Core/Inc/main.h:
-../Application/leds.h:
-../Application/xbee.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h:
-../Application/panic_version4.hpp:
+../Core/Inc/main.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_gpio.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_tim.h:

@@ -24,11 +24,13 @@ extern "C" {
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
+#include "config.h"
 #include <stdlib.h>
 #include <string.h>
 #include "stm32l0xx_ll_usart.h"
 #include "panic_version4.hpp"
 #include <stdio.h>
+#include "main.h"
 
 /** @addtogroup Application_Software
  * @{

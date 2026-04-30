@@ -31,8 +31,15 @@
 #ifndef INC_MESSAGES_H_
 #define INC_MESSAGES_H_
 
-#include "application.h"
-#include "queue.h"
+
+#include <stdint.h>          // ← uint16_t, uint8_t, etc.
+#include "FreeRTOS.h"        // ← BaseType_t, portMAX_DELAY, etc.
+#include "queue.h"           // ← QueueHandle_t, xQueueCreate, etc.
+
+//#include "application.h" // pour eviter l'erreur xbee xbee qui faisait une boucle
+// Au lieu de #include "application.h"
+class Application;
+
 
 #ifdef __cplusplus
 extern "C" {
