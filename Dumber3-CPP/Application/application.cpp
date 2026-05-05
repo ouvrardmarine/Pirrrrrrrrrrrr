@@ -88,7 +88,7 @@ void Application::vTimerTimeoutCallback_trampoline(TimerHandle_t xTimer) {
  */
 void Application::Init(void) {
 //    /* Init des messages box */
-//    MESSAGE_Init();
+	MESSAGE_Init();
 //
     /* Init de l'afficheur */
     leds.LEDS_Init();
@@ -141,111 +141,114 @@ Leds& Application::GetLeds(void){
  * @return None
  */
 void Application::APPLICATION_Thread(void) {
-//    MESSAGE_Typedef msg;
-//    char*        receivedCMD;
-//    CMD_Generic* decodedCmd;
-//
-//    while (1) {
-//        msg = MESSAGE_ReadMailbox(APPLICATION_Mailbox);
-//
-//        switch (msg.id) {
-//        case MSG_ID_XBEE_CMD:
-//            receivedCMD = (char*) msg.data;
-//
-//            if (receivedCMD != NULL) {
-//                decodedCmd = cmdDecode(receivedCMD, strlen(receivedCMD));
-//
-//                if (decodedCmd != NULL) {
-//                    if (decodedCmd->type == CMD_NONE) {
-//                        cmdSendAnswer(ANS_UNKNOWN);
-//                    } else if (decodedCmd->type == CMD_INVALID_CHECKSUM) {
-//                        cmdSendAnswer(ANS_ERR);
-//                    } else {
-//                        systemInfos.cmd = decodedCmd->type;
-//                        systemTimeout.inactivityCnt = 0;
-//
-//                        /* Manage answer to command when possible.
-//                         * Further treatment is done in APPLICATION_StateMachine. */
-//                        switch (decodedCmd->type) {
-//                        case CMD_PING:
-//                        case CMD_TEST:
-//                        case CMD_DEBUG:
-//                            cmdSendAnswer(ANS_OK);
-//                            break;
-//                        case CMD_POWER_OFF:
-//                            systemInfos.powerOffRequired = 1;
-//                            cmdSendAnswer(ANS_OK);
-//                            break;
-//                        case CMD_GET_BATTERY:
-//                            cmdSendBatteryLevel(systemInfos.batteryState);
-//                            break;
-//                        case CMD_GET_VERSION:
-//                            cmdSendVersion();
-//                            break;
-//                        case CMD_GET_BUSY_STATE:
-//                            if (systemInfos.state == stateInMouvement)
-//                                cmdSendBusyState(0x1);
-//                            else
-//                                cmdSendBusyState(0x0);
-//                            break;
-//                        case CMD_MOVE:
-//                            systemInfos.distance = ((CMD_Move*) decodedCmd)->distance;
-//                            break;
-//                        case CMD_TURN:
-//                            systemInfos.turns = ((CMD_Turn*) decodedCmd)->turns;
-//                            break;
-//                        default:
-//                            /* All other commands are processed in the state machine */
-//                            break;
-//                        }
-//                    }
-//
-//                    free(receivedCMD);
-//                    free(decodedCmd);
-//                }
-//            }
-//            break;
-//
-//        case MSG_ID_BAT_ADC_ERR:
-//            PANIC_Raise(panic_adc_err);
-//            break;
-//
-//        case MSG_ID_BAT_CHARGE_ERR:
-//            PANIC_Raise(panic_charger_err);
-//            break;
-//
-//        case MSG_ID_BAT_CHARGE_COMPLETE:
-//        case MSG_ID_BAT_CHARGE_LOW:
-//        case MSG_ID_BAT_CHARGE_MED:
-//        case MSG_ID_BAT_CHARGE_HIGH:
-//            systemInfos.batteryUpdate = 1;
-//            systemInfos.inCharge      = 1;
-//            systemInfos.batteryState  = msg.id;
-//            break;
-//
-//        case MSG_ID_BAT_CRITICAL_LOW:
-//        case MSG_ID_BAT_LOW:
-//        case MSG_ID_BAT_MED:
-//        case MSG_ID_BAT_HIGH:
-//            systemInfos.batteryUpdate = 1;
-//            systemInfos.inCharge      = 0;
-//            systemInfos.batteryState  = msg.id;
-//            break;
-//
-//        case MSG_ID_MOTORS_END_OF_MOUVMENT:
-//            systemInfos.endOfMouvement = 1;
-//            break;
-//
-//        case MSG_ID_BUTTON_PRESSED:
-//            systemInfos.powerOffRequired = 1;
-//            break;
-//
-//        default:
-//            break;
-//        }
-//
-//        APPLICATION_StateMachine();
-//    }
+    MESSAGE_Typedef msg;
+    char*        receivedCMD;
+    Commands::CMD_Generic* decodedCmd;
+
+    while (1) {
+        msg = MESSAGE_ReadMailbox(APPLICATION_Mailbox);
+
+        switch (msg.id) {
+        case MSG_ID_XBEE_CMD:
+            receivedCMD = (char*) msg.data;
+
+            if (receivedCMD != NULL) {
+                decodedCmd = Commands::decode(receivedCMD, strlen(receivedCMD));
+
+                if (decodedCmd != NULL) {
+                    if (decodedCmd->type == Commands::CMD_NONE) {
+                    	Commands::sendAnswer(ANS_UNKNOWN);
+                    } else if (decodedCmd->type == Commands::CMD_INVALID_CHECKSUM) {
+                        cmdSendAnswer(ANS_ERR);
+                    } else {
+                        systemInfos.cmd = decodedCmd->type;
+                        systemTimeout.inactivityCnt = 0;
+
+                        /* Manage answer to command when possible.
+                         * Further treatment is done in APPLICATION_StateMachine. */
+                        switch (decodedCmd->type) {
+                        case Commands::CMD_PING:
+                        case Commands::CMD_TEST:
+                        case Commands::CMD_DEBUG:
+                        	Commands::sendAnswer(ANS_OK);
+                            break;
+                        case Commands::CMD_POWER_OFF:
+                            systemInfos.powerOffRequired = 1;
+                            Commands::sendAnswer(ANS_OK);
+                            break;
+                        case Commands::CMD_GET_BATTERY:
+                        	Commands::sendBatteryLevel(systemInfos.batteryState);
+                            break;
+                        case Commands::CMD_GET_VERSION:
+                        	Commands::sendVersion();
+                            break;
+                        case Commands::CMD_GET_BUSY_STATE:
+                            if (systemInfos.state == stateInMouvement)
+                            	Commands::sendBusyState(0x1);
+                            else
+                            	Commands::sendBusyState(0x0);
+                            break;
+                        case Commands::CMD_Move:
+                            systemInfos.distance = ((Commands::CMD_Move*) decodedCmd)->distance;
+                            break;
+                        case Commands::CMD_TURN:
+                            systemInfos.turns = ((Commands::CMD_Turn*) decodedCmd)->turns;
+                            break;
+                        default:
+                            /* All other commands are processed in the state machine */
+                            break;
+                        }
+                    }
+
+                    free(receivedCMD);
+                    free(decodedCmd);
+                }
+            }
+            break;
+
+        case MSG_ID_BAT_ADC_ERR:
+            PANIC_Raise(panic_adc_err);
+            break;
+
+        case MSG_ID_BAT_CHARGE_ERR:
+            PANIC_Raise(panic_charger_err);
+            break;
+
+        case MSG_ID_BAT_CHARGE_COMPLETE:
+        case MSG_ID_BAT_CHARGE_LOW:
+        case MSG_ID_BAT_CHARGE_MED:
+        case MSG_ID_BAT_CHARGE_HIGH:
+            systemInfos.batteryUpdate = 1;
+            systemInfos.inCharge      = 1;
+            systemInfos.batteryState  = msg.id;
+            break;
+
+        case MSG_ID_BAT_CRITICAL_LOW:
+        case MSG_ID_BAT_LOW:
+        case MSG_ID_BAT_MED:
+        case MSG_ID_BAT_HIGH:
+            systemInfos.batteryUpdate = 1;
+            systemInfos.inCharge      = 0;
+            systemInfos.batteryState  = msg.id;
+            break;
+
+        case MSG_ID_MOTORS_END_OF_MOUVMENT:
+            systemInfos.endOfMouvement = 1;
+            break;
+
+        case MSG_ID_BUTTON_PRESSED:
+            systemInfos.powerOffRequired = 1;
+            break;
+
+        default:
+            break;
+        }
+
+        APPLICATION_StateMachine();
+    }
+//	while (1) {
+//		vTaskDelay(pdMS_TO_TICKS(1000));
+//	}
 }
 
 /**

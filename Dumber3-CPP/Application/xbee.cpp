@@ -109,7 +109,8 @@ void Xbee::XBEE_Init(void) {
             PriorityXbeeRX,            /* Priority at which the task is created. */
             xStackXbeeRX,              /* Array to use as the task's stack. */
             &xTaskXbeeRX);             /* Variable to hold the task's data structure. */
-    vTaskResume(xHandleXbeeRX);
+    //vTaskResume(xHandleXbeeRX);
+    vTaskSuspend(xHandleXbeeRX);
 
     /* Create the task without using any dynamic memory allocation. */
     xHandleXbeeTXHandler = xTaskCreateStatic(
@@ -120,7 +121,8 @@ void Xbee::XBEE_Init(void) {
             PriorityXbeeTX,                 /* Priority at which the task is created. */
             xStackXbeeTXHandler,            /* Array to use as the task's stack. */
             &xTaskXbeeTXHandler);           /* Variable to hold the task's data structure. */
-    vTaskResume(xHandleXbeeTXHandler);
+    //vTaskResume(xHandleXbeeTXHandler);
+ vTaskSuspend(xHandleXbeeTXHandler);
 
     /* Enable Xbee */
     HAL_GPIO_WritePin(XBEE_RESET_GPIO_Port, XBEE_RESET_Pin, GPIO_PIN_SET);
