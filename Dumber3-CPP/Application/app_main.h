@@ -16,9 +16,6 @@
 extern "C" {
 #endif
 
-/* * Déclare ici les fonctions que tu veux appeler depuis le main.c.
- * On utilise généralement deux fonctions : une pour l'init, une pour la boucle.
- */
 
 void APPLICATION_Start(void);
 

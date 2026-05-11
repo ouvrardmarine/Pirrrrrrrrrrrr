@@ -114,11 +114,14 @@ int main(void)
   MX_TIM21_Init();
   MX_ADC_Init();
   /* USER CODE BEGIN 2 */
-  APPLICATION_Start();
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
   osKernelInitialize();
+
+
+  APPLICATION_Start();
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
