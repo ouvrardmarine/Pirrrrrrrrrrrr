@@ -261,132 +261,132 @@ void Application::APPLICATION_Thread(void) {
  * @return None
  */
 void Application::APPLICATION_StateMachine(void) {
-//    LEDS_State ledState = leds_off;
-//
-//    if (systemInfos.powerOffRequired)
-//        APPLICATION_PowerOff(); /* system halts here */
-//
-//    if ((systemInfos.inCharge) && (systemInfos.state != stateInCharge)) {
-//        APPLICATION_TransitionToNewState(stateInCharge);
-//    }
-//
-//    if (systemInfos.batteryUpdate) {
-//        if (systemInfos.batteryState == MSG_ID_BAT_CRITICAL_LOW) {
-//            ledState = leds_bat_critical_low;
-//            APPLICATION_TransitionToNewState(stateLowBatDisable);
-//            LEDS_Set(ledState);
-//        } else if (systemInfos.state == stateInCharge) {
-//            switch (systemInfos.batteryState) {
-//            case MSG_ID_BAT_CHARGE_COMPLETE: ledState = leds_bat_charge_complete; break;
-//            case MSG_ID_BAT_CHARGE_HIGH:     ledState = leds_bat_charge_high;     break;
-//            case MSG_ID_BAT_CHARGE_MED:      ledState = leds_bat_charge_med;      break;
-//            case MSG_ID_BAT_CHARGE_LOW:      ledState = leds_bat_charge_low;      break;
-//            }
-//            LEDS_Set(ledState);
-//        } else if (systemInfos.state == stateStartup) {
-//            switch (systemInfos.batteryState) {
-//            case MSG_ID_BAT_HIGH: ledState = leds_bat_high; break;
-//            case MSG_ID_BAT_MED:  ledState = leds_bat_med;  break;
-//            case MSG_ID_BAT_LOW:  ledState = leds_bat_low;  break;
-//            }
-//            LEDS_Set(ledState);
-//        }
-//    }
-//
-//    if (systemInfos.cmd != CMD_NONE) {
-//        switch (systemInfos.cmd) {
-//        case CMD_RESET:
-//            if ((systemInfos.state == stateIdle)         ||
-//                (systemInfos.state == stateRun)          ||
-//                (systemInfos.state == stateInMouvement)  ||
-//                (systemInfos.state == stateWatchdogDisable))
-//            {
-//                cmdSendAnswer(ANS_OK);
-//                APPLICATION_TransitionToNewState(stateIdle);
-//            } else {
-//                cmdSendAnswer(ANS_ERR);
-//            }
-//            break;
-//
-//        case CMD_START_WITH_WATCHDOG:
-//        case CMD_START_WITHOUT_WATCHDOG:
-//            if (systemInfos.state == stateIdle) {
-//                cmdSendAnswer(ANS_OK);
-//
-//                if (systemInfos.cmd == CMD_START_WITH_WATCHDOG) {
-//                    systemTimeout.watchdogEnabled  = 1;
-//                    systemTimeout.watchdogCnt      = 0;
-//                    systemTimeout.watchdogMissedCnt = 0;
-//                }
-//
-//                APPLICATION_TransitionToNewState(stateRun);
-//            } else {
-//                cmdSendAnswer(ANS_ERR);
-//            }
-//            break;
-//
-//        case CMD_RESET_WATCHDOG:
-//            if ((systemInfos.state == stateRun) || (systemInfos.state == stateInMouvement)) {
-//                if ((systemTimeout.watchdogEnabled == 0) ||
-//                    ((systemTimeout.watchdogCnt >= (APPLICATION_WATCHDOG_MIN / 100)) &&
-//                     (systemTimeout.watchdogCnt <= (APPLICATION_WATCHDOG_MAX / 100))))
-//                {
-//                    systemTimeout.watchdogMissedCnt = 0;
-//                    Commands::cmdSendAnswer(ANS_OK);
-//                } else {
-//                    systemTimeout.watchdogMissedCnt++;
-//                    Commands::cmdSendAnswer(ANS_ERR);
-//                }
-//                systemTimeout.watchdogCnt = 0;
-//            } else {
-//                Commands::cmdSendAnswer(ANS_ERR);
-//            }
-//            break;
-//
-//        case Commands::CMD_MOVE:
-//        case Commands::CMD_TURN:
-//            /* +++ evoxx-probleme-refresh-wdt-moteurs-on */
-//            if ((systemInfos.state == stateRun) || (systemInfos.state == stateInMouvement)) {
-//                if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance != 0)) ||
-//                    ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns != 0)))
-//                {
-//                    systemInfos.endOfMouvement = 0;
-//                    APPLICATION_TransitionToNewState(stateInMouvement);
-//                } else {
-//                    if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance == 0)) ||
-//                        ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns == 0)))
-//                    {
-//                        systemInfos.endOfMouvement = 1;
-//                    }
-//                }
-//                Commands::cmdSendAnswer(ANS_OK);
-//            } else {
-//                Commands::cmdSendAnswer(ANS_ERR);
-//            }
-//            /* --- evoxx-probleme-refresh-wdt-moteurs-on */
-//            break;
-//
-//        default:
-//            break;
-//        }
-//    }
-//
-//    if ((systemInfos.state == stateInMouvement) && (systemInfos.endOfMouvement)) {
-//        APPLICATION_TransitionToNewState(stateRun);
-//    }
-//
-//    if (systemInfos.state == stateInCharge) {
-//        if (!systemInfos.inCharge) {
-//            APPLICATION_TransitionToNewState(stateIdle);
-//        } else if (systemInfos.batteryUpdate) {
-//            APPLICATION_TransitionToNewState(stateInCharge);
-//        }
-//    }
-//
-//    systemInfos.batteryUpdate    = 0;
-//    systemInfos.cmd              = Commands::CMD_NONE;
-//    systemInfos.endOfMouvement   = 0;
-//    systemInfos.powerOffRequired = 0;
+	Leds::LEDS_State ledState = Leds::leds_off;
+
+    if (systemInfos.powerOffRequired)
+        APPLICATION_PowerOff(); /* system halts here */
+
+    if ((systemInfos.inCharge) && (systemInfos.state != stateInCharge)) {
+        APPLICATION_TransitionToNewState(stateInCharge);
+    }
+
+    if (systemInfos.batteryUpdate) {
+        if (systemInfos.batteryState == MSG_ID_BAT_CRITICAL_LOW) {
+        	ledState = Leds::leds_bat_critical_low;
+            APPLICATION_TransitionToNewState(stateLowBatDisable);
+            leds.LEDS_Set(ledState);
+        } else if (systemInfos.state == stateInCharge) {
+            switch (systemInfos.batteryState) {
+            case MSG_ID_BAT_CHARGE_COMPLETE: ledState = Leds::leds_bat_charge_complete; break;
+            case MSG_ID_BAT_CHARGE_HIGH:     ledState = Leds::leds_bat_charge_high;     break;
+            case MSG_ID_BAT_CHARGE_MED:      ledState = Leds::leds_bat_charge_med;      break;
+            case MSG_ID_BAT_CHARGE_LOW:      ledState = Leds::leds_bat_charge_low;      break;
+            }
+            leds.LEDS_Set(ledState);
+        } else if (systemInfos.state == stateStartup) {
+            switch (systemInfos.batteryState) {
+            case MSG_ID_BAT_HIGH: ledState = Leds::leds_bat_high; break;
+            case MSG_ID_BAT_MED:  ledState = Leds::leds_bat_med;  break;
+            case MSG_ID_BAT_LOW:  ledState = Leds::leds_bat_low;  break;
+            }
+            leds.LEDS_Set(ledState);
+        }
+    }
+
+    if (systemInfos.cmd != Commands::CMD_NONE) {
+        switch (systemInfos.cmd) {
+        case Commands::CMD_RESET:
+            if ((systemInfos.state == stateIdle)         ||
+                (systemInfos.state == stateRun)          ||
+                (systemInfos.state == stateInMouvement)  ||
+                (systemInfos.state == stateWatchdogDisable))
+            {
+            	Commands::sendAnswer(Commands::ANS_OK);
+                APPLICATION_TransitionToNewState(stateIdle);
+            } else {
+            	Commands::sendAnswer(Commands::ANS_ERR);
+            }
+            break;
+
+        case Commands::CMD_START_WITH_WATCHDOG:
+        case Commands::CMD_START_WITHOUT_WATCHDOG:
+            if (systemInfos.state == stateIdle) {
+            	Commands::sendAnswer(Commands::ANS_OK);
+
+                if (systemInfos.cmd == Commands::CMD_START_WITH_WATCHDOG) {
+                    systemTimeout.watchdogEnabled  = 1;
+                    systemTimeout.watchdogCnt      = 0;
+                    systemTimeout.watchdogMissedCnt = 0;
+                }
+
+                APPLICATION_TransitionToNewState(stateRun);
+            } else {
+            	Commands::sendAnswer(Commands::ANS_ERR);
+            }
+            break;
+
+        case Commands::CMD_RESET_WATCHDOG:
+            if ((systemInfos.state == stateRun) || (systemInfos.state == stateInMouvement)) {
+                if ((systemTimeout.watchdogEnabled == 0) ||
+                    ((systemTimeout.watchdogCnt >= (APPLICATION_WATCHDOG_MIN / 100)) &&
+                     (systemTimeout.watchdogCnt <= (APPLICATION_WATCHDOG_MAX / 100))))
+                {
+                    systemTimeout.watchdogMissedCnt = 0;
+                    Commands::sendAnswer(Commands::ANS_OK);
+                } else {
+                    systemTimeout.watchdogMissedCnt++;
+                    Commands::sendAnswer(Commands::ANS_ERR);
+                }
+                systemTimeout.watchdogCnt = 0;
+            } else {
+                Commands::sendAnswer(Commands::ANS_ERR);
+            }
+            break;
+
+        case Commands::CMD_MOVE:
+        case Commands::CMD_TURN:
+            /* +++ evoxx-probleme-refresh-wdt-moteurs-on */
+            if ((systemInfos.state == stateRun) || (systemInfos.state == stateInMouvement)) {
+                if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance != 0)) ||
+                    ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns != 0)))
+                {
+                    systemInfos.endOfMouvement = 0;
+                    APPLICATION_TransitionToNewState(stateInMouvement);
+                } else {
+                    if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance == 0)) ||
+                        ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns == 0)))
+                    {
+                        systemInfos.endOfMouvement = 1;
+                    }
+                }
+                Commands::sendAnswer(Commands::ANS_OK);
+            } else {
+                Commands::sendAnswer(Commands::ANS_ERR);
+            }
+            /* --- evoxx-probleme-refresh-wdt-moteurs-on */
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    if ((systemInfos.state == stateInMouvement) && (systemInfos.endOfMouvement)) {
+        APPLICATION_TransitionToNewState(stateRun);
+    }
+
+    if (systemInfos.state == stateInCharge) {
+        if (!systemInfos.inCharge) {
+            APPLICATION_TransitionToNewState(stateIdle);
+        } else if (systemInfos.batteryUpdate) {
+            APPLICATION_TransitionToNewState(stateInCharge);
+        }
+    }
+
+    systemInfos.batteryUpdate    = 0;
+    systemInfos.cmd              = Commands::CMD_NONE;
+    systemInfos.endOfMouvement   = 0;
+    systemInfos.powerOffRequired = 0;
 }
 
 /**
@@ -398,70 +398,70 @@ void Application::APPLICATION_StateMachine(void) {
  * @return None
  */
 void Application::APPLICATION_TransitionToNewState(APPLICATION_State new_state) {
-//    LEDS_State ledState = leds_off;
-//
-//    switch (new_state) {
-//    case stateStartup:
-//        /* nothing to do here */
-//        break;
-//
-//    case stateIdle:
-//        ledState = leds_idle;
-//        LEDS_Set(ledState);
-//        MOTORS_Stop();
-//        systemTimeout.inactivityCnt  = 0;
-//        systemTimeout.watchdogEnabled = 0;
-//        break;
-//
-//    case stateRun:
-//        ledState = systemTimeout.watchdogEnabled ? leds_run_with_watchdog : leds_run;
-//        LEDS_Set(ledState);
-//        MOTORS_Stop();
-//        break;
-//
-//    case stateInMouvement:
-//        /* +++ evoxx-bug-watchdog-avec-moteurs */
-//        ledState = systemTimeout.watchdogEnabled ? leds_run_with_watchdog : leds_run;
-//        LEDS_Set(ledState);
-//
-//        if (systemInfos.cmd == CMD_MOVE)
-//            MOTORS_Move(systemInfos.distance);
-//        else
-//            MOTORS_Turn(systemInfos.turns);
-//        break;
-//
-//    case stateInCharge:
-//        /* LEDs are managed in APPLICATION_StateMachine */
-//        MOTORS_Stop();
-//        systemTimeout.watchdogEnabled = 0;
-//        break;
-//
-//    case stateWatchdogDisable:
-//        ledState = leds_watchdog_expired;
-//        LEDS_Set(ledState);
-//        MOTORS_Stop(); /* +++ evoxx-bug-watchdog-avec-moteurs */
-//        systemTimeout.watchdogEnabled = 0;
-//        break;
-//
-//    case stateLowBatDisable:
-//        ledState = leds_bat_critical_low;
-//        LEDS_Set(ledState);
-//        MOTORS_Stop(); /* +++ evoxx-bug-watchdog-avec-moteurs */
-//        systemTimeout.watchdogEnabled = 0;
-//
-//        /* Send Button_Pressed as priority message to trigger power-off.
-//         * Done before the delay so the mailbox does not fill up. */
-//        MESSAGE_SendMailbox(APPLICATION_Mailbox, MSG_ID_BUTTON_PRESSED,
-//                APPLICATION_Mailbox, (void*) NULL);
-//
-//        vTaskDelay(pdMS_TO_TICKS(4000)); /* wait 4 s */
-//        break;
-//
-//    default:
-//        break;
-//    }
-//
-//    systemInfos.state = new_state;
+	Leds::LEDS_State ledState = Leds::leds_off;
+
+    switch (new_state) {
+    case stateStartup:
+       /* nothing to do here */
+        break;
+
+    case stateIdle:
+        ledState = Leds::leds_idle;
+        leds.LEDS_Set(ledState);
+        Motors::stop();
+        systemTimeout.inactivityCnt  = 0;
+        systemTimeout.watchdogEnabled = 0;
+        break;
+
+    case stateRun:
+        ledState = systemTimeout.watchdogEnabled ? Leds::leds_run_with_watchdog : Leds::leds_run;
+        leds.LEDS_Set(ledState);
+        Motors::stop();
+        break;
+
+    case stateInMouvement:
+        /* +++ evoxx-bug-watchdog-avec-moteurs */
+        ledState = systemTimeout.watchdogEnabled ? Leds::leds_run_with_watchdog : Leds::leds_run;
+        leds.LEDS_Set(ledState);
+
+        if (systemInfos.cmd == Commands::CMD_MOVE)
+        	Motors::move(systemInfos.distance);
+        else
+        	Motors::move(systemInfos.turns);
+        break;
+
+    case stateInCharge:
+        /* LEDs are managed in APPLICATION_StateMachine */
+    	Motors::stop();
+        systemTimeout.watchdogEnabled = 0;
+        break;
+
+    case stateWatchdogDisable:
+        ledState = Leds::leds_watchdog_expired;
+        leds.LEDS_Set(ledState);
+        Motors::stop(); /* +++ evoxx-bug-watchdog-avec-moteurs */
+        systemTimeout.watchdogEnabled = 0;
+        break;
+
+    case stateLowBatDisable:
+        ledState = Leds::leds_bat_critical_low;
+        leds.LEDS_Set(ledState);
+        Motors::stop(); /* +++ evoxx-bug-watchdog-avec-moteurs */
+        systemTimeout.watchdogEnabled = 0;
+
+        /* Send Button_Pressed as priority message to trigger power-off.
+         * Done before the delay so the mailbox does not fill up. */
+        MESSAGE_SendMailbox(APPLICATION_Mailbox, MSG_ID_BUTTON_PRESSED,
+                APPLICATION_Mailbox, (void*) NULL);
+
+        vTaskDelay(pdMS_TO_TICKS(4000)); /* wait 4 s */
+        break;
+
+    default:
+        break;
+    }
+
+    systemInfos.state = new_state;
 }
 
 /**
@@ -493,31 +493,31 @@ void Application::APPLICATION_PowerOff(void) {
  * @return None
  */
 void Application::vTimerTimeoutCallback(TimerHandle_t xTimer) {
-//    if (systemInfos.state == stateStartup) {
-//        systemTimeout.startupCnt++;
-//        if (systemTimeout.startupCnt++ >= (APPLICATION_STARTUP_DELAY / 100))
-//            APPLICATION_TransitionToNewState(stateIdle);
-//    }
-//
-//    if (systemInfos.state != stateInCharge) {
-//        systemTimeout.inactivityCnt++;
-//        if (systemTimeout.inactivityCnt >= (APPLICATION_INACTIVITY_TIMEOUT / 100))
-//            /* Send Button_Pressed to trigger power-off */
-//            MESSAGE_SendMailbox(APPLICATION_Mailbox, MSG_ID_BUTTON_PRESSED,
-//                    APPLICATION_Mailbox, (void*) NULL);
-//
-//        if (systemTimeout.watchdogEnabled) {
-//            systemTimeout.watchdogCnt++;
-//
-//            if (systemTimeout.watchdogCnt > (APPLICATION_WATCHDOG_MAX / 100)) {
-//                systemTimeout.watchdogCnt = 0;
-//                systemTimeout.watchdogMissedCnt++;
-//            }
-//
-//            if (systemTimeout.watchdogMissedCnt >= APPLICATION_WATCHDOG_MISSED_MAX)
-//                APPLICATION_TransitionToNewState(stateWatchdogDisable);
-//        }
-//    }
+    if (systemInfos.state == stateStartup) {
+        systemTimeout.startupCnt++;
+        if (systemTimeout.startupCnt++ >= (APPLICATION_STARTUP_DELAY / 100))
+            APPLICATION_TransitionToNewState(stateIdle);
+    }
+
+    if (systemInfos.state != stateInCharge) {
+        systemTimeout.inactivityCnt++;
+        if (systemTimeout.inactivityCnt >= (APPLICATION_INACTIVITY_TIMEOUT / 100))
+            /* Send Button_Pressed to trigger power-off */
+            MESSAGE_SendMailbox(APPLICATION_Mailbox, MSG_ID_BUTTON_PRESSED,
+                    APPLICATION_Mailbox, (void*) NULL);
+
+        if (systemTimeout.watchdogEnabled) {
+            systemTimeout.watchdogCnt++;
+
+            if (systemTimeout.watchdogCnt > (APPLICATION_WATCHDOG_MAX / 100)) {
+                systemTimeout.watchdogCnt = 0;
+                systemTimeout.watchdogMissedCnt++;
+            }
+
+            if (systemTimeout.watchdogMissedCnt >= APPLICATION_WATCHDOG_MISSED_MAX)
+                APPLICATION_TransitionToNewState(stateWatchdogDisable);
+        }
+    }
 }
 
 /**

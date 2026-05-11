@@ -4,7 +4,7 @@
 ../Application/application.cpp:89:6:void Application::Init()	1
 ../Application/application.cpp:127:7:Leds& Application::GetLeds()	1
 ../Application/application.cpp:143:6:void Application::APPLICATION_Thread()	20
-../Application/application.cpp:263:6:void Application::APPLICATION_StateMachine()	1
-../Application/application.cpp:400:6:void Application::APPLICATION_TransitionToNewState(APPLICATION_State)	1
+../Application/application.cpp:263:6:void Application::APPLICATION_StateMachine()	50
+../Application/application.cpp:400:6:void Application::APPLICATION_TransitionToNewState(APPLICATION_State)	11
 ../Application/application.cpp:476:6:void Application::APPLICATION_PowerOff()	1
-../Application/application.cpp:495:6:void Application::vTimerTimeoutCallback(TimerHandle_t)	1
+../Application/application.cpp:495:6:void Application::vTimerTimeoutCallback(TimerHandle_t)	8

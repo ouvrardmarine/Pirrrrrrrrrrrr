@@ -1,3 +1,5 @@
 ../Application/application.h:56:25:static Application& Application::Instance()	2
-../Application/panic_version4.cpp:26:26:void Panic_StopTasksAndWait()	7
-../Application/panic_version4.cpp:64:19:void Panic_Raise(PanicType)	4
+../Application/application.h:68:11:Xbee& Application::GetXbee()	1
+../Application/application.h:70:10:void Application::suspend()	2
+../Application/panic_version4.cpp:9:26:void Panic_StopTasksAndWait()	1
+../Application/panic_version4.cpp:29:19:void Panic_Raise(PanicType)	4

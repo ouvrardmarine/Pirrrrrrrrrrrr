@@ -1,87 +1,40 @@
 #include "panic_version4.hpp"
-
-extern "C" {
 #include "application.h"
+#include "Motors.h"
+#include "battery_version4.hpp"
 #include "timers.h"
 #include "leds.h"
 #include "stm32l0xx_hal.h"
-}
 
-// Forward declarations (C linkage if needed)
-extern "C" void MOTORS_PowerOff(void);
-
-// FreeRTOS handles
-extern TaskHandle_t xHandleLedsHandler;
-extern TaskHandle_t xHandleLedsAction;
-extern TaskHandle_t xHandleBattery;
-extern TimerHandle_t xHandleTimerButton;
-extern TaskHandle_t xHandleApplicationMain;
-extern TimerHandle_t xHandleTimerTimeout;
-extern TaskHandle_t xHandleMotors;
-extern TaskHandle_t xHandleMotorsControl;
-extern TaskHandle_t xHandleXbeeTXHandler;
-extern TaskHandle_t xHandleXbeeRX;
-
-// Private function
 [[noreturn]] static void Panic_StopTasksAndWait(void)
 {
-    TaskHandle_t currentTask = xTaskGetCurrentTaskHandle();
+    Application& app = Application::Instance();
 
-    // Stop tasks (except current + LEDs)
-    if (currentTask != xHandleXbeeRX)
-        vTaskSuspend(xHandleXbeeRX);
+    // Suspend subsystem tasks via their class APIs
+    app.GetXbee().suspend();   // suspends xHandleXbeeRX + xHandleXbeeTXHandler
+    Battery::suspend();        // suspends xHandleBattery
+    Motors::suspend();         // suspends xHandleMotors + xHandleMotorsControl
+    Motors::powerOff();        // cuts motor power (timers + GPIO)
 
-    if (currentTask != xHandleXbeeTXHandler)
-        vTaskSuspend(xHandleXbeeTXHandler);
-
-    if (currentTask != xHandleMotors)
-        vTaskSuspend(xHandleMotors);
-
-    if (currentTask != xHandleMotorsControl)
-        vTaskSuspend(xHandleMotorsControl);
-
-    if (currentTask != xHandleBattery)
-        vTaskSuspend(xHandleBattery);
-
-    if (currentTask != xHandleApplicationMain)
-        vTaskSuspend(xHandleApplicationMain);
-
-    // Power off motors
-    MOTORS_PowerOff();
-
-    // Disable XBEE
+    // Disable XBee radio
     HAL_GPIO_WritePin(XBEE_RESET_GPIO_Port, XBEE_RESET_Pin, GPIO_PIN_RESET);
 
-    // Suspend current task
-    vTaskSuspend(currentTask);
+    // Suspend application task, then self
+    app.suspend();
+    vTaskSuspend(xTaskGetCurrentTaskHandle());
 
-    // Infinite low-power wait
-    while (true) {
-        __WFE();
-    }
+    while (true) { __WFE(); }
 }
 
 [[noreturn]] void Panic_Raise(PanicType panicId)
 {
-
-	Application& app = Application::Instance();
+    Application& app = Application::Instance();
 
     switch (panicId) {
-        case PanicType::AdcError:
-        	app.GetLeds().LEDS_Set(Leds::leds_error_1);
-            break;
-
-        case PanicType::ChargerError:
-        	app.GetLeds().LEDS_Set(Leds::leds_error_2);
-            break;
-
-        case PanicType::MallocError:
-        	app.GetLeds().LEDS_Set(Leds::leds_error_3);
-            break;
-
-        default:
-        	app.GetLeds().LEDS_Set(Leds::leds_error_5);
-            break;
+        case PanicType::AdcError:     app.GetLeds().LEDS_Set(Leds::leds_error_1); break;
+        case PanicType::ChargerError: app.GetLeds().LEDS_Set(Leds::leds_error_2); break;
+        case PanicType::MallocError:  app.GetLeds().LEDS_Set(Leds::leds_error_3); break;
+        default:                      app.GetLeds().LEDS_Set(Leds::leds_error_5); break;
     }
 
     Panic_StopTasksAndWait();

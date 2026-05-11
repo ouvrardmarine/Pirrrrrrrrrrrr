@@ -65,6 +65,8 @@ public:
 
     Leds& GetLeds(void);
 
+    Xbee& GetXbee(void) { return xbee; }
+
     void suspend() {
         if (xHandleApplicationMain) vTaskSuspend(xHandleApplicationMain);
     }

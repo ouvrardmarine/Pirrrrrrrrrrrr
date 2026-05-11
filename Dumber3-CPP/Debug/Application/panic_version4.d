@@ -50,7 +50,8 @@ Application/panic_version4.o: ../Application/panic_version4.cpp \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
  ../Application/Motors.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+ ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ ../Application/battery_version4.hpp
 ../Application/panic_version4.hpp:
 ../Application/messages.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
@@ -106,3 +107,4 @@ Application/panic_version4.o: ../Application/panic_version4.cpp \
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h:
 ../Application/Motors.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+../Application/battery_version4.hpp:
