@@ -65,6 +65,10 @@ public:
 
     Leds& GetLeds(void);
 
+    void suspend() {
+        if (xHandleApplicationMain) vTaskSuspend(xHandleApplicationMain);
+    }
+
 private:
     // -------------------------------------------------------------------------
     // Internal types

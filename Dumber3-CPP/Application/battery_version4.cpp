@@ -112,6 +112,10 @@ uint16_t Battery::BatteryLevel(uint8_t voltage, ChargerStatus status) {
     }
 }
 
+void Battery::suspend() {
+    if (taskHandle) vTaskSuspend(taskHandle);
+}
+
 // ===== Main thread =====
 void Battery::Thread(void* params) {
     uint16_t voltage;

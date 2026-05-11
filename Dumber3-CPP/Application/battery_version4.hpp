@@ -19,6 +19,8 @@ public:
     static void GpioExtiCallback(uint16_t GPIO_Pin);
     ///////////////////////////////////////////////////////////////////////////////
 
+    static void suspend(void);
+
 private:
     // Charger state
     enum class ChargerStatus {

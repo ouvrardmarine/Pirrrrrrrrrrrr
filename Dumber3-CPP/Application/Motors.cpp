@@ -247,6 +247,11 @@ void Motors::powerOff()
     LL_GPIO_ResetOutputPin(GPIOB, SHUTDOWN_5V_Pin);
 }
 
+void Motors::suspend() {
+    if (xHandleMotors)        vTaskSuspend(xHandleMotors);
+    if (xHandleMotorsControl) vTaskSuspend(xHandleMotorsControl);
+}
+
 /* -------------------------------------------------------------------------- */
 /* CALLBACK HAL */
 /* -------------------------------------------------------------------------- */

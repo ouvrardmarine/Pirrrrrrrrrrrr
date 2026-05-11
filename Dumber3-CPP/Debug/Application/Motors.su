@@ -24,8 +24,9 @@
 ../Application/Motors.cpp:183:6:static void Motors::set(int16_t, int16_t)	24	static
 ../Application/Motors.cpp:218:6:static void Motors::powerOn()	8	static
 ../Application/Motors.cpp:234:6:static void Motors::powerOff()	8	static
-../Application/Motors.cpp:254:17:void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef*)	16	static
-../Application/Motors.cpp:259:6:static void Motors::timerCaptureCallback(TIM_HandleTypeDef*)	16	static
-../Application/Motors.cpp:324:9:static int16_t Motors::encoderCorrection(const MotorState&)	48	static
-../Application/Motors.cpp:360:6:static void Motors::resetControlTask()	24	static
-../Application/Motors.cpp:380:6:static void Motors::controlTask(void*)	56	static
+../Application/Motors.cpp:250:6:static void Motors::suspend()	8	static
+../Application/Motors.cpp:259:17:void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef*)	16	static
+../Application/Motors.cpp:264:6:static void Motors::timerCaptureCallback(TIM_HandleTypeDef*)	16	static
+../Application/Motors.cpp:329:9:static int16_t Motors::encoderCorrection(const MotorState&)	48	static
+../Application/Motors.cpp:365:6:static void Motors::resetControlTask()	24	static
+../Application/Motors.cpp:385:6:static void Motors::controlTask(void*)	56	static

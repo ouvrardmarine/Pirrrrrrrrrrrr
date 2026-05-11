@@ -28,6 +28,10 @@ public:
 
     static void timerCaptureCallback(TIM_HandleTypeDef *htim);
 
+    static void powerOff();
+
+    static void suspend();
+
 private:
 
     /* constantes */
@@ -66,7 +70,6 @@ private:
 
     static void powerOn();
 
-    static void powerOff();
 
     static int16_t encoderCorrection(const MotorState& state);
 };

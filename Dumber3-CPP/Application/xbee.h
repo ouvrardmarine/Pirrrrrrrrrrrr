@@ -94,6 +94,8 @@ public:
      */
     void LPUART1_IRQHandler(void);
 
+    void suspend(void);
+
 private:
     // -------------------------------------------------------------------------
     // Constants

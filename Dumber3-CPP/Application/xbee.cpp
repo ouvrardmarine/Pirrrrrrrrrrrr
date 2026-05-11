@@ -238,6 +238,11 @@ void Xbee::LPUART1_IRQHandler(void) {
     }
 }
 
+void Xbee::suspend() {
+        if (xHandleXbeeRX)        vTaskSuspend(xHandleXbeeRX);
+        if (xHandleXbeeTXHandler) vTaskSuspend(xHandleXbeeTXHandler);
+    }
+
 // =========================================================================
 // Private methods
 // =========================================================================

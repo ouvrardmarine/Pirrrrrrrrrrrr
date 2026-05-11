@@ -157,9 +157,9 @@ void Application::APPLICATION_Thread(void) {
 
                 if (decodedCmd != NULL) {
                     if (decodedCmd->type == Commands::CMD_NONE) {
-                    	Commands::sendAnswer(ANS_UNKNOWN);
+                    	Commands::sendAnswer(Commands::ANS_UNKNOWN);
                     } else if (decodedCmd->type == Commands::CMD_INVALID_CHECKSUM) {
-                        cmdSendAnswer(ANS_ERR);
+                    	Commands::sendAnswer(Commands::ANS_ERR);
                     } else {
                         systemInfos.cmd = decodedCmd->type;
                         systemTimeout.inactivityCnt = 0;
@@ -170,11 +170,11 @@ void Application::APPLICATION_Thread(void) {
                         case Commands::CMD_PING:
                         case Commands::CMD_TEST:
                         case Commands::CMD_DEBUG:
-                        	Commands::sendAnswer(ANS_OK);
+                        	Commands::sendAnswer(Commands::ANS_OK);
                             break;
                         case Commands::CMD_POWER_OFF:
                             systemInfos.powerOffRequired = 1;
-                            Commands::sendAnswer(ANS_OK);
+                            Commands::sendAnswer(Commands::ANS_OK);
                             break;
                         case Commands::CMD_GET_BATTERY:
                         	Commands::sendBatteryLevel(systemInfos.batteryState);
@@ -188,7 +188,7 @@ void Application::APPLICATION_Thread(void) {
                             else
                             	Commands::sendBusyState(0x0);
                             break;
-                        case Commands::CMD_Move:
+                        case Commands::CMD_MOVE:
                             systemInfos.distance = ((Commands::CMD_Move*) decodedCmd)->distance;
                             break;
                         case Commands::CMD_TURN:
@@ -207,11 +207,11 @@ void Application::APPLICATION_Thread(void) {
             break;
 
         case MSG_ID_BAT_ADC_ERR:
-            PANIC_Raise(panic_adc_err);
+        	Panic_Raise(PanicType::AdcError);
             break;
 
         case MSG_ID_BAT_CHARGE_ERR:
-            PANIC_Raise(panic_charger_err);
+        	Panic_Raise(PanicType::ChargerError);
             break;
 
         case MSG_ID_BAT_CHARGE_COMPLETE:
@@ -332,36 +332,36 @@ void Application::APPLICATION_StateMachine(void) {
 //                     (systemTimeout.watchdogCnt <= (APPLICATION_WATCHDOG_MAX / 100))))
 //                {
 //                    systemTimeout.watchdogMissedCnt = 0;
-//                    cmdSendAnswer(ANS_OK);
+//                    Commands::cmdSendAnswer(ANS_OK);
 //                } else {
 //                    systemTimeout.watchdogMissedCnt++;
-//                    cmdSendAnswer(ANS_ERR);
+//                    Commands::cmdSendAnswer(ANS_ERR);
 //                }
 //                systemTimeout.watchdogCnt = 0;
 //            } else {
-//                cmdSendAnswer(ANS_ERR);
+//                Commands::cmdSendAnswer(ANS_ERR);
 //            }
 //            break;
 //
-//        case CMD_MOVE:
-//        case CMD_TURN:
+//        case Commands::CMD_MOVE:
+//        case Commands::CMD_TURN:
 //            /* +++ evoxx-probleme-refresh-wdt-moteurs-on */
 //            if ((systemInfos.state == stateRun) || (systemInfos.state == stateInMouvement)) {
-//                if (((systemInfos.cmd == CMD_MOVE) && (systemInfos.distance != 0)) ||
-//                    ((systemInfos.cmd == CMD_TURN) && (systemInfos.turns    != 0)))
+//                if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance != 0)) ||
+//                    ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns != 0)))
 //                {
 //                    systemInfos.endOfMouvement = 0;
 //                    APPLICATION_TransitionToNewState(stateInMouvement);
 //                } else {
-//                    if (((systemInfos.cmd == CMD_MOVE) && (systemInfos.distance == 0)) ||
-//                        ((systemInfos.cmd == CMD_TURN) && (systemInfos.turns    == 0)))
+//                    if (((systemInfos.cmd == Commands::CMD_MOVE) && (systemInfos.distance == 0)) ||
+//                        ((systemInfos.cmd == Commands::CMD_TURN) && (systemInfos.turns == 0)))
 //                    {
 //                        systemInfos.endOfMouvement = 1;
 //                    }
 //                }
-//                cmdSendAnswer(ANS_OK);
+//                Commands::cmdSendAnswer(ANS_OK);
 //            } else {
-//                cmdSendAnswer(ANS_ERR);
+//                Commands::cmdSendAnswer(ANS_ERR);
 //            }
 //            /* --- evoxx-probleme-refresh-wdt-moteurs-on */
 //            break;
@@ -384,7 +384,7 @@ void Application::APPLICATION_StateMachine(void) {
 //    }
 //
 //    systemInfos.batteryUpdate    = 0;
-//    systemInfos.cmd              = CMD_NONE;
+//    systemInfos.cmd              = Commands::CMD_NONE;
 //    systemInfos.endOfMouvement   = 0;
 //    systemInfos.powerOffRequired = 0;
 }
